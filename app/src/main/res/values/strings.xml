@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="current_app_version">Current APK version:</string>
+	<string name="app_name">UpdaterDemo</string>
+	<string name="dialog_title">Update available</string>
+	<string name="dialog_prompt">Do you want to download and install update now?</string>
+	<string name="notification_title">Update ready to install</string>
+	<string name="notification_prompt">Click to install the update!</string>
+    <string name="check_for_update">Check for update</string>
+
+	<string name="update_error">An error has occurred while downloading update. Please try again later</string>
+	<string name="no_update">No update</string>
+</resources>
