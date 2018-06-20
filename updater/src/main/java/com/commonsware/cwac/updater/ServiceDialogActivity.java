@@ -46,13 +46,22 @@ public class ServiceDialogActivity extends Activity implements OnClickListener, 
     protected void onStart() {
         super.onStart();
         registerReceiver(mProgressReceiver, new IntentFilter(UpdateRequest.ACTION_PROGRESS));
+        registerReceiver(mCompleteReceiver, new IntentFilter(UpdateRequest.ACTION_COMPLETE));
     }
 
     @Override
     protected void onStop() {
         unregisterReceiver(mProgressReceiver);
+        unregisterReceiver(mCompleteReceiver);
         super.onStop();
     }
+
+    private BroadcastReceiver mCompleteReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ServiceDialogActivity.super.finish();
+        }
+    };
 
     private AlertDialog dialog;
 
