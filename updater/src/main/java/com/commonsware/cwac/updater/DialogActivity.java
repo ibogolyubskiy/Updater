@@ -114,7 +114,7 @@ public class DialogActivity extends Activity implements OnClickListener, OnKeyLi
             float value = currentSize * 100f / totalSize;
             percent.setText(getString(R.string.percent_format, (int)value));
 
-            if (Float.compare(value, 100f) == 0)
+            if (Float.compare(value, 100f) >= 0)
                 finish();
         }
     };
