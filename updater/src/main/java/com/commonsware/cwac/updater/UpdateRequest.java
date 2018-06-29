@@ -21,6 +21,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.commonsware.cwac.updater.confirmation.ConfirmationStrategy;
+import com.commonsware.cwac.updater.download.DownloadStrategy;
+import com.commonsware.cwac.updater.check.VersionCheckStrategy;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 public class UpdateRequest {

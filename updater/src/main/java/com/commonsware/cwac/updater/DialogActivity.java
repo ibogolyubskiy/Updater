@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -16,9 +17,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import static android.content.DialogInterface.*;
+import static android.content.DialogInterface.BUTTON_NEGATIVE;
+import static android.content.DialogInterface.BUTTON_POSITIVE;
+import static android.content.DialogInterface.OnClickListener;
+import static android.content.DialogInterface.OnKeyListener;
+import static android.view.WindowManager.LayoutParams;
 
-public class ServiceDialogActivity extends Activity implements OnClickListener, OnKeyListener {
+public class DialogActivity extends Activity implements OnClickListener, OnKeyListener {
 
     public static final String INTENT = "INTENT";
     public static final String TITLE = "TITLE";
@@ -27,6 +32,10 @@ public class ServiceDialogActivity extends Activity implements OnClickListener, 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            setFinishOnTouchOutside(false);
+        else
+            getWindow().clearFlags(LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setOnKeyListener(this);
@@ -59,7 +68,7 @@ public class ServiceDialogActivity extends Activity implements OnClickListener, 
     private BroadcastReceiver mCompleteReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ServiceDialogActivity.super.finish();
+            finish();
         }
     };
 
@@ -103,7 +112,7 @@ public class ServiceDialogActivity extends Activity implements OnClickListener, 
             percent.setText(getString(R.string.percent_format, (int)value));
 
             if (Float.compare(value, 100f) == 0)
-                onBackPressed();
+                finish();
         }
     };
 
@@ -121,6 +130,7 @@ public class ServiceDialogActivity extends Activity implements OnClickListener, 
                 }
                 break;
             case BUTTON_NEGATIVE:
+                sendBroadcast(new Intent(UpdateRequest.ACTION_COMPLETE));
                 finish();
                 break;
         }
@@ -128,14 +138,10 @@ public class ServiceDialogActivity extends Activity implements OnClickListener, 
 
     @Override
     public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_UP)
+        if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+            sendBroadcast(new Intent(UpdateRequest.ACTION_COMPLETE));
             finish();
+        }
         return keyCode == KeyEvent.KEYCODE_BACK;
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        sendBroadcast(new Intent(UpdateRequest.ACTION_COMPLETE));
     }
 }

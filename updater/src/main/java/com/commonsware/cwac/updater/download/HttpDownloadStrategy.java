@@ -12,7 +12,7 @@
  limitations under the License.
  */
 
-package com.commonsware.cwac.updater;
+package com.commonsware.cwac.updater.download;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,8 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.FileProvider;
+
+import com.commonsware.cwac.updater.UpdateRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,13 +39,14 @@ public class HttpDownloadStrategy implements DownloadStrategy {
 
     static final String FOLDER_NAME = ".update";
     static final String FILENAME = "update.apk";
-    public static final int BUFFER_SIZE = 4096;
+    private static final int BUFFER_SIZE = 4096;
 
     @Override
     public Uri downloadAPK(Context context, String url) throws Exception {
         File apk = getDownloadFile(context);
 
         if (apk.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             apk.delete();
         }
 
@@ -95,6 +98,7 @@ public class HttpDownloadStrategy implements DownloadStrategy {
 
     protected File getDownloadFile(Context context) {
         File updateDir = new File(context.getExternalFilesDir(null), FOLDER_NAME);
+        //noinspection ResultOfMethodCallIgnored
         updateDir.mkdirs();
         return new File(updateDir, FILENAME);
     }
@@ -103,7 +107,7 @@ public class HttpDownloadStrategy implements DownloadStrategy {
         return new FileOutputStream(apk);
     }
 
-    protected Uri getDownloadUri(Context context, File apk) {
+    private Uri getDownloadUri(Context context, File apk) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             String packageName = context.getPackageName();
             return FileProvider.getUriForFile(context, packageName + ".fileProvider", apk);

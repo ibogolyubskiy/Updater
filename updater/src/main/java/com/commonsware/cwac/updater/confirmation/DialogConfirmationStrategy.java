@@ -1,10 +1,12 @@
-package com.commonsware.cwac.updater;
+package com.commonsware.cwac.updater.confirmation;
 
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.commonsware.cwac.updater.DialogActivity;
 
 public class DialogConfirmationStrategy implements ConfirmationStrategy {
 
@@ -31,15 +33,15 @@ public class DialogConfirmationStrategy implements ConfirmationStrategy {
     }
 
     /* (non-Javadoc)
-     * @see com.commonsware.cwac.updater.ConfirmationStrategy#confirm(android.content.Context, android.app.PendingIntent)
+     * @see com.commonsware.cwac.updater.confirmation.ConfirmationStrategy#confirm(android.content.Context, android.app.PendingIntent)
      */
     @Override
     public boolean confirm(Context context, PendingIntent contentIntent) {
-        Intent intent = new Intent(context, ServiceDialogActivity.class);
+        Intent intent = new Intent(context, DialogActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(ServiceDialogActivity.TITLE, title);
-        intent.putExtra(ServiceDialogActivity.MESSAGE, message);
-        intent.putExtra(ServiceDialogActivity.INTENT, contentIntent);
+        intent.putExtra(DialogActivity.TITLE, title);
+        intent.putExtra(DialogActivity.MESSAGE, message);
+        intent.putExtra(DialogActivity.INTENT, contentIntent);
         context.startActivity(intent);
         return false;
     }

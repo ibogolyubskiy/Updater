@@ -12,7 +12,7 @@
  limitations under the License.
  */
 
-package com.commonsware.cwac.updater;
+package com.commonsware.cwac.updater.check;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -82,7 +82,7 @@ public class HttpVersionCheckStrategy implements VersionCheckStrategy {
     }
 
     /* (non-Javadoc)
-     * @see com.commonsware.cwac.updater.VersionCheckStrategy#getVersionCode()
+     * @see com.commonsware.cwac.updater.interfaces.VersionCheckStrategy#getVersionCode()
      */
     @Override
     public int getVersionCode() throws Exception {
@@ -128,7 +128,7 @@ public class HttpVersionCheckStrategy implements VersionCheckStrategy {
     }
 
     /* (non-Javadoc)
-     * @see com.commonsware.cwac.updater.VersionCheckStrategy#getUpdateURL()
+     * @see com.commonsware.cwac.updater.interfaces.VersionCheckStrategy#getUpdateURL()
      */
     @Override
     public String getUpdateURL() {

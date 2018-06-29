@@ -16,9 +16,11 @@ package com.commonsware.cwac.updater;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 
+import com.commonsware.cwac.updater.check.VersionCheckStrategy;
+import com.commonsware.cwac.updater.confirmation.ConfirmationStrategy;
+import com.commonsware.cwac.updater.download.DownloadStrategy;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 public class UpdateService extends WakefulIntentService {
@@ -69,7 +71,7 @@ public class UpdateService extends WakefulIntentService {
         }
     }
 
-    private void confirmAndInstall(Intent cmd, UpdateRequest req, Uri apk) throws Exception {
+    private void confirmAndInstall(Intent cmd, UpdateRequest req, Uri apk) {
 
         ConfirmationStrategy strategy = req.getPreInstallConfirmationStrategy();
 
@@ -79,21 +81,9 @@ public class UpdateService extends WakefulIntentService {
     }
 
     private void install(Uri apk) {
-        Intent intent;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
-            //noinspection deprecation
-            intent.putExtra(Intent.EXTRA_ALLOW_REPLACE, true);
-        } else {
-            intent = new Intent(Intent.ACTION_VIEW);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
-        intent.setDataAndType(apk, "application/vnd.android.package-archive");
+        Intent intent = new Intent(this, InstallActivity.class);
+        intent.setData(apk);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
         startActivity(intent);
     }
 

@@ -1,4 +1,4 @@
-/***
+/*
  * Copyright (c) 2012 CommonsWare, LLC
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.commonsware.cwac.updater;
+package com.commonsware.cwac.updater.confirmation;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -29,7 +29,7 @@ import android.os.Parcelable;
 public class NotificationConfirmationStrategy implements ConfirmationStrategy {
 
     private static final int NOTIFICATION_ID = 99369921;
-    private Notification notification = null;
+    private Notification notification;
 
     /**
      * Public constructor
@@ -44,11 +44,11 @@ public class NotificationConfirmationStrategy implements ConfirmationStrategy {
      * @param in Parcel to restore instance from
      */
     private NotificationConfirmationStrategy(Parcel in) {
-        notification = in.readParcelable(null);
+        notification = in.readParcelable(Notification.class.getClassLoader());
     }
 
     /* (non-Javadoc)
-     * @see com.commonsware.cwac.updater.ConfirmationStrategy#confirm(android.content.Context, android.app.PendingIntent)
+     * @see com.commonsware.cwac.updater.confirmation.ConfirmationStrategy#confirm(android.content.Context, android.app.PendingIntent)
      */
     @Override
     public boolean confirm(Context context, PendingIntent contentIntent) {
@@ -57,7 +57,9 @@ public class NotificationConfirmationStrategy implements ConfirmationStrategy {
 
         notification.contentIntent = contentIntent;
 
-        mgr.notify(NOTIFICATION_ID, notification);
+        if (mgr != null) {
+            mgr.notify(NOTIFICATION_ID, notification);
+        }
 
         return false;
     }
@@ -75,7 +77,7 @@ public class NotificationConfirmationStrategy implements ConfirmationStrategy {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(notification, 0);
+        dest.writeParcelable(notification, flags);
     }
 
     /**

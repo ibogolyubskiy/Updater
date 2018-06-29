@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.commonsware.cwac.updater;
+package com.commonsware.cwac.updater.check;
 
 import android.os.Parcelable;
 

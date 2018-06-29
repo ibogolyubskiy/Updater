@@ -1,57 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-	android:layout_height="match_parent"
+    android:layout_height="match_parent"
     android:layout_width="match_parent">
 
     <LinearLayout
-        tools:ignore="UselessParent"
-        android:orientation="vertical"
-        android:layout_gravity="center"
+        android:layout_above="@id/button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/current_app_version"/>
-
-            <android.support.v4.widget.Space
-                android:layout_width="4dp"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/versionCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="4dp" />
-
-        <Button
-            android:onClick="checkForUpdate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/check_for_update" />
-
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="4dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true">
 
         <TextView
-            android:id="@+id/result"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/current_app_version" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="4dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/versionCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:onClick="checkForUpdate"
+        android:layout_above="@id/center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/check_for_update" />
 
-</FrameLayout>
+    <android.support.v4.widget.Space
+        android:id="@+id/center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/result"
+        android:gravity="center"
+        tools:ignore="RtlHardcoded"
+        android:layout_below="@id/button"
+        android:layout_marginLeft="-64dp"
+        android:layout_marginRight="-64dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/button"
+        android:layout_alignRight="@id/button" />
+
+
+</RelativeLayout>

@@ -28,17 +28,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.commonsware.cwac.updater.ConfirmationStrategy;
-import com.commonsware.cwac.updater.DialogConfirmationStrategy;
-import com.commonsware.cwac.updater.DownloadStrategy;
-import com.commonsware.cwac.updater.HttpDownloadStrategy;
-import com.commonsware.cwac.updater.HttpVersionCheckStrategy;
-import com.commonsware.cwac.updater.ImmediateConfirmationStrategy;
-import com.commonsware.cwac.updater.InternalHttpDownloadStrategy;
-import com.commonsware.cwac.updater.NotificationConfirmationStrategy;
+import com.commonsware.cwac.updater.confirmation.ConfirmationStrategy;
+import com.commonsware.cwac.updater.confirmation.DialogConfirmationStrategy;
+import com.commonsware.cwac.updater.download.DownloadStrategy;
+import com.commonsware.cwac.updater.download.HttpDownloadStrategy;
+import com.commonsware.cwac.updater.check.HttpVersionCheckStrategy;
+import com.commonsware.cwac.updater.confirmation.ImmediateConfirmationStrategy;
+import com.commonsware.cwac.updater.download.InternalHttpDownloadStrategy;
+import com.commonsware.cwac.updater.confirmation.NotificationConfirmationStrategy;
 import com.commonsware.cwac.updater.UpdateRequest;
-import com.commonsware.cwac.updater.UpdateService;
-import com.commonsware.cwac.updater.VersionCheckStrategy;
+import com.commonsware.cwac.updater.check.VersionCheckStrategy;
 
 public class MainActivity extends Activity {
 
@@ -84,7 +83,7 @@ public class MainActivity extends Activity {
     private ConfirmationStrategy immediatePreInstallStrategy() {
         return new ImmediateConfirmationStrategy();
     }
-
+    
     private ConfirmationStrategy notificationPreInstallStrategy() {
         Notification n = new NotificationCompat.Builder(this)
             .setContentTitle(getString(R.string.notification_title))

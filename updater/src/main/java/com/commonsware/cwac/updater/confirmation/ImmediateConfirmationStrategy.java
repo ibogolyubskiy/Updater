@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.commonsware.cwac.updater;
+package com.commonsware.cwac.updater.confirmation;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -26,7 +26,7 @@ import android.os.Parcelable;
  */
 public class ImmediateConfirmationStrategy implements ConfirmationStrategy {
     /* (non-Javadoc)
-     * @see com.commonsware.cwac.updater.ConfirmationStrategy#confirm(android.content.Context, android.app.PendingIntent)
+     * @see com.commonsware.cwac.updater.confirmation.ConfirmationStrategy#confirm(android.content.Context, android.app.PendingIntent)
      */
     @Override
     public boolean confirm(Context context, PendingIntent contentIntent) {

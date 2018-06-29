@@ -12,12 +12,13 @@
  * limitations under the License.
  */
 
-package com.commonsware.cwac.updater;
+package com.commonsware.cwac.updater.download;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 public class InternalHttpDownloadStrategy extends HttpDownloadStrategy {
@@ -25,10 +26,12 @@ public class InternalHttpDownloadStrategy extends HttpDownloadStrategy {
     @Override
     protected File getDownloadFile(Context context) {
         File updateDir = new File(context.getFilesDir(), FOLDER_NAME);
+        //noinspection ResultOfMethodCallIgnored
         updateDir.mkdirs();
         return new File(updateDir, FILENAME);
     }
 
+    @SuppressLint("WorldReadableFiles")
     @Override
     protected OutputStream openDownloadFile(Context context, File apk) throws FileNotFoundException {
         return context.openFileOutput(FILENAME, Context.MODE_WORLD_READABLE);

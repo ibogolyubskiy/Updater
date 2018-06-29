@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.commonsware.cwac.updater;
+package com.commonsware.cwac.updater.confirmation;
 
 import android.app.PendingIntent;
 import android.content.Context;
