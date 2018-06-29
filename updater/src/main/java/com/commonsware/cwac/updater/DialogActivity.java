@@ -52,6 +52,9 @@ public class DialogActivity extends Activity implements OnClickListener, OnKeyLi
     }
 
     @Override
+    public void onBackPressed() { }
+
+    @Override
     protected void onStart() {
         super.onStart();
         registerReceiver(mProgressReceiver, new IntentFilter(UpdateRequest.ACTION_PROGRESS));
