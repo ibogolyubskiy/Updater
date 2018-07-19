@@ -49,24 +49,19 @@ public class DialogActivity extends Activity implements OnClickListener, OnKeyLi
             builder.setMessage(message);
 
         builder.show();
-    }
-
-    @Override
-    public void onBackPressed() { }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         registerReceiver(mProgressReceiver, new IntentFilter(UpdateRequest.ACTION_PROGRESS));
         registerReceiver(mCompleteReceiver, new IntentFilter(UpdateRequest.ACTION_COMPLETE));
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         unregisterReceiver(mProgressReceiver);
         unregisterReceiver(mCompleteReceiver);
-        super.onStop();
+        super.onDestroy();
     }
+
+    @Override
+    public void onBackPressed() { }
 
     private BroadcastReceiver mCompleteReceiver = new BroadcastReceiver() {
         @Override

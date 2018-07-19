@@ -63,6 +63,14 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             Log.e(MainActivity.class.getName(), "An impossible exception", e);
         }
+
+        registerReceiver(mCompleteReceiver, new IntentFilter(UpdateRequest.ACTION_COMPLETE));
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mCompleteReceiver);
+        super.onDestroy();
     }
 
     private VersionCheckStrategy buildVersionCheckStrategy() {
@@ -101,18 +109,6 @@ public class MainActivity extends Activity {
             .setDownloadStrategy(buildDownloadStrategy())
             .setPreInstallStrategy(immediatePreInstallStrategy())
             .execute();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        registerReceiver(mCompleteReceiver, new IntentFilter(UpdateRequest.ACTION_COMPLETE));
-    }
-
-    @Override
-    protected void onStop() {
-        unregisterReceiver(mCompleteReceiver);
-        super.onStop();
     }
 
     private BroadcastReceiver mCompleteReceiver = new BroadcastReceiver() {
