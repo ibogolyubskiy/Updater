@@ -48,13 +48,16 @@ public class DialogActivity extends Activity implements OnClickListener, OnKeyLi
         if (!TextUtils.isEmpty(message))
             builder.setMessage(message);
 
-        builder.show();
+        alert = builder.show();
         registerReceiver(mProgressReceiver, new IntentFilter(UpdateRequest.ACTION_PROGRESS));
         registerReceiver(mCompleteReceiver, new IntentFilter(UpdateRequest.ACTION_COMPLETE));
     }
 
+    private AlertDialog alert;
+
     @Override
     protected void onDestroy() {
+        if (alert != null) alert.dismiss();
         unregisterReceiver(mProgressReceiver);
         unregisterReceiver(mCompleteReceiver);
         super.onDestroy();
@@ -101,16 +104,17 @@ public class DialogActivity extends Activity implements OnClickListener, OnKeyLi
                 size.setText(getString(R.string.size_format, totalSize / 1024f / 1024f));
             }
 
-            if (dialog != null && !dialog.isShowing())
-                dialog.show();
+            if (dialog != null) dialog.show();
 
             progress.setProgress(currentSize);
             current.setText(getString(R.string.size_format, currentSize / 1024f / 1024f));
             float value = currentSize * 100f / totalSize;
             percent.setText(getString(R.string.percent_format, (int)value));
 
-            if (Float.compare(value, 100f) >= 0)
+            if (Float.compare(value, 100f) >= 0) {
+                if (dialog != null) dialog.dismiss();
                 finish();
+            }
         }
     };
 
