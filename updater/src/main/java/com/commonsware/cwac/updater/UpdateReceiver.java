@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.content.IntentCompat;
 
 public class UpdateReceiver extends BroadcastReceiver {
@@ -20,7 +21,11 @@ public class UpdateReceiver extends BroadcastReceiver {
         Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
         if (intent != null) {
             ComponentName componentName = intent.getComponent();
-            Intent mainIntent = IntentCompat.makeRestartActivityTask(componentName);
+            Intent mainIntent;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+                mainIntent = IntentCompat.makeRestartActivityTask(componentName);
+            else
+                mainIntent = Intent.makeRestartActivityTask(componentName);
             context.startActivity(mainIntent);
         }
     }
