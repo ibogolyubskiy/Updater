@@ -61,6 +61,7 @@ public class HttpVersionCheckStrategy implements VersionCheckStrategy {
      * Basic constructor
      * @param url Location of the JSON document to download
      */
+    @SuppressWarnings("unused")
     public HttpVersionCheckStrategy(String url) {
         this.url = url;
     }

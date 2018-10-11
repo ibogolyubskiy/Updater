@@ -26,6 +26,7 @@ import com.commonsware.cwac.updater.download.DownloadStrategy;
 import com.commonsware.cwac.updater.check.VersionCheckStrategy;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class UpdateRequest {
 
     public static final int PHASE_VERSION_CHECK = 1;

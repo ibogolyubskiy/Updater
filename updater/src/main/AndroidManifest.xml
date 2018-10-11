@@ -23,6 +23,12 @@
 
         <receiver android:name=".WakefulReceiver" />
 
+        <receiver android:name=".UpdateReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

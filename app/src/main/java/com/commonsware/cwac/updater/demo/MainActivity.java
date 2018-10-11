@@ -92,6 +92,7 @@ public class MainActivity extends Activity {
         return new ImmediateConfirmationStrategy();
     }
     
+    @SuppressWarnings("unused")
     private ConfirmationStrategy notificationPreInstallStrategy() {
         Notification n = new NotificationCompat.Builder(this)
             .setContentTitle(getString(R.string.notification_title))
