@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.content.IntentCompat;
+import android.util.Log;
 
 public class UpdateReceiver extends BroadcastReceiver {
 
@@ -22,8 +23,10 @@ public class UpdateReceiver extends BroadcastReceiver {
         if (intent != null) {
             ComponentName componentName = intent.getComponent();
             Intent mainIntent;
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+                Log.d("startLauncherActivity", "startLauncherActivity: < 11");
                 mainIntent = IntentCompat.makeRestartActivityTask(componentName);
+            }
             else
                 mainIntent = Intent.makeRestartActivityTask(componentName);
             context.startActivity(mainIntent);
