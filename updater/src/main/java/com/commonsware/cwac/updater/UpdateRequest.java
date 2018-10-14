@@ -18,8 +18,12 @@ import java.security.InvalidParameterException;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.commonsware.cwac.updater.confirmation.ConfirmationStrategy;
 import com.commonsware.cwac.updater.download.DownloadStrategy;
@@ -50,6 +54,8 @@ public class UpdateRequest {
     public static final String EXTRA_CURRENT = PACKAGE_NAME + "CURRENT";
     public static final String ACTION_PROGRESS = PACKAGE_NAME + "ACTION_PROGRESS";
     public static final String ACTION_COMPLETE = PACKAGE_NAME + "ACTION_COMPLETE";
+
+    static final String APP_VERSION = "app_version";
 
     private Intent cmd;
 
@@ -131,6 +137,20 @@ public class UpdateRequest {
             }
 
             WakefulIntentService.sendWakefulWork(context, cmd);
+            saveAppVersion();
+        }
+
+        private void saveAppVersion() {
+            try {
+                PackageManager manager = context.getPackageManager();
+                String packageName = context.getPackageName();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                int versionCode = manager.getPackageInfo(packageName, 0).versionCode;
+                prefs.edit().putInt(APP_VERSION, versionCode).apply();
+            }
+            catch (Exception e) {
+                Log.e(UpdateRequest.class.getName(), "saveAppVersion: ", e);
+            }
         }
 
         void setPhase(int phase) {
