@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -13,13 +14,18 @@ import android.util.Log;
 
 public class UpdateReceiver extends BroadcastReceiver {
 
+    static final String APP_VERSION = "app_version";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            int prevAppVersion = prefs.getInt(UpdateRequest.APP_VERSION, 1);
-            if (getAppVersion(context) > prevAppVersion)
+            int currentAppVersion = getAppVersion(context);
+            int prevAppVersion = prefs.getInt(APP_VERSION, currentAppVersion);
+            if (currentAppVersion > prevAppVersion) {
+                prefs.edit().remove(APP_VERSION).apply();
                 startLauncherActivity(context);
+            }
         }
     }
 
@@ -41,11 +47,12 @@ public class UpdateReceiver extends BroadcastReceiver {
         try {
             PackageManager manager = context.getPackageManager();
             String packageName = context.getPackageName();
-            return manager.getPackageInfo(packageName, 0).versionCode;
+            PackageInfo packageInfo = manager.getPackageInfo(packageName, 0);
+            return packageInfo.versionCode;
         }
         catch (Exception e) {
-            Log.e(UpdateReceiver.class.getName(), "getAppVersion: ", e);
-            return 1;
+            Log.e("Updater", "getAppVersion: ", e);
+            return 0;
         }
     }
 }

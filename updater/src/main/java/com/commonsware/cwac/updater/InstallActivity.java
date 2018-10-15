@@ -2,8 +2,12 @@ package com.commonsware.cwac.updater;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.WindowManager.LayoutParams;
 
 public class InstallActivity extends Activity {
@@ -13,6 +17,7 @@ public class InstallActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        saveAppVersion();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             setFinishOnTouchOutside(false);
         else
@@ -32,9 +37,24 @@ public class InstallActivity extends Activity {
         startActivityForResult(intent, INSTALL_REQUEST);
     }
 
+    private void saveAppVersion() {
+        try {
+            PackageManager manager = getPackageManager();
+            String packageName = getPackageName();
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            int versionCode = manager.getPackageInfo(packageName, 0).versionCode;
+            prefs.edit().putInt(UpdateReceiver.APP_VERSION, versionCode).apply();
+        }
+        catch (Exception e) {
+            Log.e("Updater", "saveAppVersion: ", e);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.edit().remove(UpdateReceiver.APP_VERSION).apply();
         if (requestCode == INSTALL_REQUEST) {
             sendBroadcast(new Intent(UpdateRequest.ACTION_COMPLETE));
             finish();
