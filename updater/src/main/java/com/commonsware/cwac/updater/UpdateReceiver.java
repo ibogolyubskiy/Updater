@@ -51,7 +51,7 @@ public class UpdateReceiver extends BroadcastReceiver {
             return packageInfo.versionCode;
         }
         catch (Exception e) {
-            Log.e("Updater", "getAppVersion: ", e);
+            Log.e("CWAC-Updater", "getAppVersion: ", e);
             return 0;
         }
     }

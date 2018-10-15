@@ -58,7 +58,7 @@ public class UpdateService extends WakefulIntentService {
             Intent intent = new Intent(UpdateRequest.ACTION_COMPLETE);
             intent.putExtra(UpdateRequest.EXTRA_ERROR, true);
             sendBroadcast(intent);
-            Log.e("Updater", "Exception in applying update", e);
+            Log.e("CWAC-Updater", "Exception in applying update", e);
         }
     }
 

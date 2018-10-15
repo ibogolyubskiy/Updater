@@ -46,7 +46,7 @@ public class InstallActivity extends Activity {
             prefs.edit().putInt(UpdateReceiver.APP_VERSION, versionCode).apply();
         }
         catch (Exception e) {
-            Log.e("Updater", "saveAppVersion: ", e);
+            Log.e("CWAC-Updater", "saveAppVersion: ", e);
         }
     }
 
